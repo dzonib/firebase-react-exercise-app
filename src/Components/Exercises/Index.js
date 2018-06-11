@@ -12,8 +12,8 @@ const style = {
   }
 }
 
-const Exercises = props => (
-  <Grid container spacing={8} justify="center">
+const Exercises = props => {
+  return <Grid container spacing={8} justify="center">
     <Grid item sm>
      <LeftPane style={style}/>
     </Grid>
@@ -23,6 +23,6 @@ const Exercises = props => (
     </Grid>
 
   </Grid>
-);
+};
 
 export default Exercises;
