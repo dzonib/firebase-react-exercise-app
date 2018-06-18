@@ -1,38 +1,40 @@
-import React, { Component } from 'react';
+import React, {Component, Fragment} from 'react';
 import Header from './Components/Layouts/Header'
 import Footer from './Components/Layouts/Footer'
 import Exercises from './Components/Exercises/Index'
 import {muscles, exercises} from './store'
 
-
-class App extends Component {
+export default class App extends Component {
 
   state = {
-    exercises
+    category: ''
   }
 
-  getExerciseByMuscleGroup() {
-    return this.state.exercises.reduce((exercises, exercise) => {
+
+  reduceExercises = () =>
+    Object.entries(exercises.reduce((exercises, exercise) => {
       const {muscles} = exercise;
 
       exercises[muscles] = exercises[muscles] ? [...exercises[muscles], exercise] : [exercise]
 
       return exercises
-      
-    }, {})
+    }, {}))
+
+
+  handleFooterChange = category => {
+    this.setState({category})
   }
 
+
+
   render() {
-    console.log(this.getExerciseByMuscleGroup())
-    
+    const exercises = this.reduceExercises();
     return (
-      <div>
-        <Header />
+      <Fragment>
+        <Header/>
         <Exercises exercises={exercises}/>
-        <Footer muscles={muscles}/>
-      </div>
+        <Footer  category={this.state.category} muscles={muscles} onSelect={this.handleFooterChange}/>
+      </Fragment>
     );
   }
 }
-
-export default App;

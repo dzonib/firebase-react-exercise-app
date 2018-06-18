@@ -1,28 +1,27 @@
-import React from 'react';
-import { Paper, Tabs } from '@material-ui/core';
-import { Tab } from '@material-ui/core';
+import React, {Fragment} from 'react';
+import {Paper, Tab, Tabs} from '@material-ui/core'
 
-const Footer = ({muscles}) => {
+export default({muscles, onSelect, category}) => {
 
-  return <div>
-    <Paper>
+  const index = category ? muscles.findIndex( muscle => muscle === category) +1 : 0
+
+  const passChange = (e, passedValue) => {
+    onSelect(passedValue === 0 ? '' : muscles[passedValue -1])
+  }
+
+
+  return <Fragment>
+    <Paper >
       <Tabs
-        value={0}
+        centered
+        value={index}
         indicatorColor="primary"
         textColor="primary"
-        centered
-      >
-        <Tab label='All' />
-
-      {muscles.map( (muscle, id) =>
-        <Tab key={id} label={muscle} />
-      )}
-        {/* <Tab label="Item One" />
-        <Tab label="Item Two" />
-        <Tab label="Item Three" /> */}
+        onChange={passChange}
+        >
+        <Tab label="All"/> {muscles.map(muscle => <Tab key={muscle} label={muscle}/>)}
       </Tabs>
     </Paper>
-  </div>
+  </Fragment>
 
 }
-export default Footer;

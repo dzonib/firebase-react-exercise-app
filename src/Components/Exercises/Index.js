@@ -1,28 +1,54 @@
-import React from 'react';
-import { Grid } from '@material-ui/core';
-import RightPane from './RightPane'
-import LeftPane from './LeftPane'
+import React, {Fragment} from 'react';
+import {
+  Paper,
+  Grid,
+  Typography,
+  List,
+  ListItem,
+  ListItemText
+} from '@material-ui/core'
 
 const style = {
   Paper: {
-    padding: 20,
-    textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 10
+    height: 550,
+    marginTop: 15,
+    overflowY: 'auto'
   }
 }
 
-const Exercises = props => {
-  return <Grid container spacing={8} justify="center">
+export default({exercises}) => <Fragment>
+  <Grid container spacing={16}>
     <Grid item sm>
-     <LeftPane style={style}/>
+      <Paper style={style.Paper}>
+        {exercises.map(([groups, exercises]) => 
+           <Fragment key={groups}>
+            <Typography
+              style={{
+              textTransform: "capitalize"
+            }}
+              variant="headline">
+              {groups}
+            </Typography>
+            <List component="ul">
+            {exercises.map(({title}) => 
+              <ListItem button key={title}>
+                <ListItemText primary={title}/>
+              </ListItem>
+            )}
+            </List>
+          </Fragment>
+        )}
+      </Paper>
     </Grid>
-
     <Grid item sm>
-     <RightPane style={style}/>
+      <Paper style={style.Paper}>
+        <Typography align="center" variant="display1">
+          Welcome!
+        </Typography>
+        <Typography align="center" variant="body2">
+          Please select an exercise from the left.
+        </Typography>
+      </Paper>
     </Grid>
-
   </Grid>
-};
-
-export default Exercises;
+</Fragment>
