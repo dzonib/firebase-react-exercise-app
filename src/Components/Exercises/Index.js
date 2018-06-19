@@ -16,39 +16,49 @@ const style = {
   }
 }
 
-export default({exercises}) => <Fragment>
-  <Grid container spacing={16}>
-    <Grid item sm>
-      <Paper style={style.Paper}>
-        {exercises.map(([groups, exercises]) => 
-           <Fragment key={groups}>
-            <Typography
-              style={{
-              textTransform: "capitalize"
-            }}
-              variant="headline">
-              {groups}
-            </Typography>
-            <List component="ul">
-            {exercises.map(({title}) => 
-              <ListItem button key={title}>
-                <ListItemText primary={title}/>
-              </ListItem>
-            )}
-            </List>
-          </Fragment>
-        )}
-      </Paper>
+export default({
+  exercises,
+  category,
+  passedId,
+  exercise: {
+    title = 'Welcome!',
+    description = 'Please select an exercise from the left.',
+    id,
+    muscles
+  }
+}) => {
+
+  return <Fragment>
+    <Grid container spacing={16}>
+      <Grid item sm>
+        <Paper style={style.Paper}>
+          {exercises.map(([groups, exercises]) => {
+
+            return !category || groups === category
+              ? <Fragment key={groups}>
+                  <Typography
+                    style={{
+                    textTransform: "capitalize"
+                  }}
+                    variant="headline">
+                    {groups}
+                  </Typography>
+                  <List component="ul">
+                    {exercises.map(({title, id}) => <ListItem button key={title} onClick={(e) => passedId(id)}>
+                      <ListItemText primary={title}/>
+                    </ListItem>)}
+                  </List>
+                </Fragment>
+              : null
+          })}
+        </Paper>
+      </Grid>
+      <Grid item sm>
+        <Paper style={style.Paper}>
+          <Typography align="center" variant="display1">{title}</Typography>
+          <Typography align="center" variant="body2">{description}</Typography>
+        </Paper>
+      </Grid>
     </Grid>
-    <Grid item sm>
-      <Paper style={style.Paper}>
-        <Typography align="center" variant="display1">
-          Welcome!
-        </Typography>
-        <Typography align="center" variant="body2">
-          Please select an exercise from the left.
-        </Typography>
-      </Paper>
-    </Grid>
-  </Grid>
-</Fragment>
+  </Fragment>
+}

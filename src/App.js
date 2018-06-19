@@ -7,33 +7,47 @@ import {muscles, exercises} from './store'
 export default class App extends Component {
 
   state = {
-    category: ''
+    category: '',
+    exercise: {}
   }
 
+  reduceExercises = () => Object.entries(exercises.reduce((exercises, exercise) => {
+    const {muscles} = exercise;
 
-  reduceExercises = () =>
-    Object.entries(exercises.reduce((exercises, exercise) => {
-      const {muscles} = exercise;
+    exercises[muscles] = exercises[muscles]
+      ? [
+        ...exercises[muscles],
+        exercise
+      ]
+      : [exercise]
 
-      exercises[muscles] = exercises[muscles] ? [...exercises[muscles], exercise] : [exercise]
-
-      return exercises
-    }, {}))
-
+    return exercises
+  }, {}))
 
   handleFooterChange = category => {
     this.setState({category})
   }
 
+  getExerciseWithIdHandler = id => {
+    const exercise = exercises.find(exercise => exercise.id === id);
 
+    this.setState(() => ({exercise}))
+  }
 
   render() {
     const exercises = this.reduceExercises();
     return (
       <Fragment>
-        <Header/>
-        <Exercises exercises={exercises}/>
-        <Footer  category={this.state.category} muscles={muscles} onSelect={this.handleFooterChange}/>
+        <Header muscles={muscles}/>
+        <Exercises
+          exercise={this.state.exercise}
+          passedId={this.getExerciseWithIdHandler}
+          exercises={exercises}
+          category={this.state.category}/>
+        <Footer
+          category={this.state.category}
+          muscles={muscles}
+          onSelect={this.handleFooterChange}/>
       </Fragment>
     );
   }

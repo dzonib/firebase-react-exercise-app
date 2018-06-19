@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {AppBar, Toolbar, Typography} from '@material-ui/core'
+import AddExercise from '../Exercises/Dialogs/Create'
 
 const style = {
   AppBar: {
@@ -8,15 +9,18 @@ const style = {
   }
 }
 
+const Header = ({muscles}) => {
+  return <Fragment>
+    <AppBar position="static" color="inherit" style={style.AppBar}>
+      <Toolbar>
+        <Typography variant="title" color="inherit" style={{flex: 1}}>
+          Exercise App
+        </Typography>
+        <AddExercise muscles={muscles}/>
 
-const Header = () => (
-  <AppBar position="static" color="inherit" style={style.AppBar}>
-    <Toolbar>
-      <Typography variant="title" color="inherit">
-        Title
-      </Typography>
-    </Toolbar>
-  </AppBar>
-);
+      </Toolbar>
+    </AppBar>
+  </Fragment>
+};
 
 export default Header;
